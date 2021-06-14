@@ -1,6 +1,6 @@
 # Christmas Tree Parser
 
-An memory-efficient and asynchronous XML parser based on XMLReader and
+A memory-efficient and asynchronous XML parser based on XMLReader and
 SimpleXMLElement.
 
 ## Install
@@ -16,32 +16,36 @@ Add to composer.json:
     ]
 }
 ```
+
 then run
 ```shell
 composer require tromsfylkestrafikk/christmas-tree-parser
 ```
 
 ## Usage
+
 Add callbacks for your desired path/branch/twig elements and fetch the
-actual node as a SimpleXMLElement object. Unfortunately this tool
+matched node as a SimpleXMLElement object. Unfortunately this tool
 doesn't support XPath queries, only element paths as arrays. So in an
 exmple XML file containing
 ```xml
 <?xml version="1.0"?>
 <Library>
   <Book>
-    <Title>Practical XML parsingin PHP</Title>
+    <Title>Practical XML parsing in PHP</Title>
     <Author>Seasoned Php Developer</Author>
   </Book>
 </Library>
 ```
-you can add a callback as an XML path to e.g. `Title` as any of these:
+
+you can add a callback for `Title` nodes using as any of these as path:
 - `'Title'`
 - `['Title']`
 - `['Library', 'Title']`
 - `['Book', 'Title']`
 - `['Library', 'Book', 'Title']`
-depending on need for granularity.
+
+depending on your need for granularity.
 
 Full-scale example:
 
@@ -71,9 +75,8 @@ class LibraryReader
     public function readBook($reader)
     {
         $xml = $reader->expandSimpleXml();
+        $title = $xml->Title;
         $author = $xml->Author;
-        $isbn = $Xml->Isbn;
-        // ...
     }
 }
 
