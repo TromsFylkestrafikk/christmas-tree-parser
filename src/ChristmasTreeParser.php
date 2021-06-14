@@ -7,7 +7,7 @@
  * @author Kåre Slettnes <kaare.slettnes@tffk.no>
  */
 
-namespace Tromsfylkestrafikk\Xml;
+namespace TromsFylkestrafikk\Xml;
 
 use DomDocument;
 use Exception;

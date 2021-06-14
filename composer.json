@@ -2,6 +2,11 @@
     "name": "tromsfylkestrafikk/christmas-tree-parser",
     "description": "Memory efficient XML parser using XMLReader and callback handling on twigs and branches in XML tree.",
     "type": "library",
+    "keywords": [
+        "xml",
+        "asynchronous",
+        "memory-efficient"
+    ],
     "license": "GPL-3.0-or-later",
     "authors": [
         {
@@ -15,5 +20,7 @@
         }
     },
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": "^7.3|^8.0"
+    }
 }
