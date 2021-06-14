@@ -1,0 +1,19 @@
+{
+    "name": "tromsfylkestrafikk/christmas-tree-parser",
+    "description": "Memory efficient XML parser using XMLReader and callback handling on twigs and branches in XML tree.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Kåre Slettnes",
+            "email": "kaare.slettnes@tffk.no"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TromsFylkestrafikk\\Xml\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
