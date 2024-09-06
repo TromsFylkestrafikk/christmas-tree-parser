@@ -96,6 +96,7 @@ class ChristmasTreeParser extends XMLReader
         if (!is_array($pattern)) {
             $pattern = [$pattern];
         }
+        $pattern = array_merge($this->parents, $pattern);
         $name = end($pattern);
         if (!isset($this->callTree[$name])) {
             $this->callTree[$name] = [];
@@ -109,24 +110,6 @@ class ChristmasTreeParser extends XMLReader
         usort($this->callTree[$name], function ($cb1, $cb2) {
             return count($cb2['pattern']) - count($cb1['pattern']);
         });
-        return $this;
-    }
-
-    /**
-     * Add callback handler for $pattern as children of $this->parents
-     *
-     * @param array|string $pattern Element(s) that are children of current
-     *   position in XML tree.
-     * @param callable $callback Handler to invoke for given match.
-     *
-     * @return ChristmasTreeParser
-     */
-    public function addNestedCallback($pattern, $callback): ChristmasTreeParser
-    {
-        if (!is_array($pattern)) {
-            $pattern = [ $pattern ];
-        }
-        $this->addCallback(array_merge($this->parents, $pattern), $callback);
         return $this;
     }
 
@@ -152,6 +135,51 @@ class ChristmasTreeParser extends XMLReader
                 return $this;
             }
         }
+        return $this;
+    }
+
+    /**
+     * Get parser object with given parent as start.
+     *
+     * Useful in situations where you have lots of common callback handlers
+     * nested deep in a xml tree. With this you can group handler by:
+     * @code
+     * $parser->withParents(['deep', 'down', 'the', 'rabbit', 'hole'], function (ChristmasTreeParser $reader) {
+     *   $parser->addCallback('alice', [$this, 'readAlice']);
+     * });
+     * @endcode
+     */
+    public function withParents(array $parents, $callback): ChristmasTreeParser
+    {
+        $oldParents = $this->parents;
+        $this->parents = $parents;
+        call_user_func($callback, $this);
+        $this->parents = $oldParents;
+        return $this;
+    }
+
+    /**
+     * Add callback handler for $pattern as children of $this->parents
+     *
+     * @deprecated
+     *
+     * Adding callbacks during parsing of XML files is a dangerous minefield,
+     * where you might end up with lots of unwanted callbacks in situations
+     * where the originally matched element is hit several times. Don't use
+     * this!
+     *
+     * @param array|string $pattern Element(s) that are children of current
+     *   position in XML tree.
+     * @param callable $callback Handler to invoke for given match.
+     *
+     * @return ChristmasTreeParser
+     */
+    public function addNestedCallback($pattern, $callback): ChristmasTreeParser
+    {
+        if (!is_array($pattern)) {
+            $pattern = [ $pattern ];
+        }
+        $this->addCallback(array_merge($this->parents, $pattern), $callback);
         return $this;
     }
 
@@ -331,7 +359,7 @@ class ChristmasTreeParser extends XMLReader
     {
         $handler = self::feederFactory($destination);
         foreach ($patterns as $pattern) {
-            $this->addNestedCallback($pattern, $handler);
+            $this->addCallback($pattern, $handler);
         }
         return $this;
     }

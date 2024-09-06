@@ -47,6 +47,16 @@ you can add a callback for `Title` nodes using as any of these as path:
 
 depending on your need for granularity.
 
+In situations where you have several matches on elements deep down the
+XML tree, you can use a shorthand method to inject callback:
+```php
+  $reader = new ChristmasTreeParser();
+  $reader->withParents(['Library', 'Book'], function (ChristmasTreeParser $reader) {
+      $reader->addCallback(['Title'], [$this, 'readTitle']);
+  });
+```
+This will expand to the full pattern `['Library', 'Book', 'Title']`.
+
 Full-scale example:
 
 ```php
@@ -58,7 +68,7 @@ class LibraryReader
     {
         $reader = new ChristmasTreeParser();
         $reader->open($library);
-        $reader->addCallback('Library', function() { echo "Parsing library"; })
+        $reader->addCallback('Library', function () { echo "Parsing library"; })
             ->addCallback(['Library', 'Book'], [$this, 'readBook'])
             ->parse()
             ->close();
