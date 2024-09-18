@@ -89,7 +89,7 @@ class ChristmasTreeParser extends XMLReader
      * @param callable $callback
      *   The callback handler
      *
-     * @return \App\Xml\ChristmasTreeParser
+     * @return ChristmasTreeParser
      */
     public function addCallback($pattern, $callback): ChristmasTreeParser
     {
@@ -118,7 +118,7 @@ class ChristmasTreeParser extends XMLReader
      *
      * @param string|array $pattern The pattern to remove handler for
      *
-     * @return \App\Xml\ChristmasTreeParser
+     * @return ChristmasTreeParser
      */
     public function removeCallback($pattern): ChristmasTreeParser
     {
@@ -207,7 +207,7 @@ class ChristmasTreeParser extends XMLReader
     /**
      * Start parsing the XML Document.
      *
-     * @return \App\Xml\ChristmasTreeParser
+     * @return ChristmasTreeParser
      */
     public function parse(): ChristmasTreeParser
     {
